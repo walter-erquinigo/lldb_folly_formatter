@@ -1,3 +1,6 @@
-add_executable(fbstring_test main.cpp)
+add_executable(fbstring fbstring.cpp)
 
-target_link_libraries(fbstring_test PRIVATE folly)
+target_link_libraries(fbstring PRIVATE folly)
+
+install(TARGETS fbstring
+	RUNTIME DESTINATION ${INSTALL_DIR})

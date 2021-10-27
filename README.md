@@ -19,9 +19,15 @@ sudo dnf install lldb
 # How to build
 
 ```
-mkdir build && cd build
-cmake -G Ninja ..
-ninja all
+./build.sh
+```
+
+The produced artifacts will be in the `./out/bin` folder. This folder can't be changed as the test framework requires it to be fixed.
+
+# How to run the tests
+
+```
+./run_tests.sh
 ```
 
 # How to use a formatter
