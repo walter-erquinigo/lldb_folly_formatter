@@ -17,34 +17,48 @@ class LLDBFollyTests(LLDBTestCase):
 b fbstring.cpp:9
 r
 script lldb.debugger.HandleCommand("frame var str")
+script lldb.debugger.HandleCommand("p str")
 c
 script lldb.debugger.HandleCommand("frame var str")
+script lldb.debugger.HandleCommand("p str")
 c
 script lldb.debugger.HandleCommand("frame var str")
+script lldb.debugger.HandleCommand("p str")
 c
 script lldb.debugger.HandleCommand("frame var str")
+script lldb.debugger.HandleCommand("p str")
 c
 script lldb.debugger.HandleCommand("frame var str")
+script lldb.debugger.HandleCommand("p str")
 c
 script lldb.debugger.HandleCommand("frame var str")
+script lldb.debugger.HandleCommand("p str")
 c
 script lldb.debugger.HandleCommand("frame var str")
+script lldb.debugger.HandleCommand("p str")
 c
 """
         expected = """
 (folly::fbstring) str = (folly::fbstring) ""
+(folly::fbstring) $0 = (folly::fbstring) ""
 
 (folly::fbstring) str = (folly::fbstring) "a"
+(folly::fbstring) $1 = (folly::fbstring) "a"
 a
 (folly::fbstring) str = (folly::fbstring) "aa"
+(folly::fbstring) $2 = (folly::fbstring) "aa"
 aa
 (folly::fbstring) str = (folly::fbstring) "aaaaaaaaaaaaaaaaaaaaaaa"
+(folly::fbstring) $3 = (folly::fbstring) "aaaaaaaaaaaaaaaaaaaaaaa"
 aaaaaaaaaaaaaaaaaaaaaaa
 (folly::fbstring) str = (folly::fbstring) "aaaaaaaaaaaaaaaaaaaaaaaa"
+(folly::fbstring) $4 = (folly::fbstring) "aaaaaaaaaaaaaaaaaaaaaaaa"
 aaaaaaaaaaaaaaaaaaaaaaaa
 (folly::fbstring) str = (folly::fbstring) "aaaaaaaaaaaaaaaaaaaaaaaaa"
+(folly::fbstring) $5 = (folly::fbstring) "aaaaaaaaaaaaaaaaaaaaaaaaa"
 aaaaaaaaaaaaaaaaaaaaaaaaa
 (folly::fbstring) str = (folly::fbstring) "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+(folly::fbstring) $6 = (folly::fbstring) "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 """.strip()
 
