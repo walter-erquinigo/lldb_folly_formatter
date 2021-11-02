@@ -17,12 +17,10 @@ def summary(valobj, dict):
                 return str(start)
             return "(folly::StringPiece) " + summary
         else:
-            return "folly::Range size=" + str(
-                SyntheticFormatter.get_range_length(valobj)
-            )
+            return f"(folly::Range) <{SyntheticFormatter.get_item_type(valobj)}> [{SyntheticFormatter.get_range_length(valobj)}]"
 
     except Exception:
-        return "folly::Range"
+        return "(folly::Range)"
 
 
 class SyntheticFormatter:
@@ -55,7 +53,7 @@ class SyntheticFormatter:
             .GetChildMemberWithName("e_")
             .GetValueAsUnsigned()
         )
-        return (end - start) / itemSize
+        return (end - start) // itemSize
 
     def num_children(self):
         if SyntheticFormatter.is_string_piece(self.valobj):
