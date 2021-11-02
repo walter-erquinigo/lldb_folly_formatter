@@ -15,9 +15,9 @@ def summary(valobj, dict):
             summary = start.GetSummary()
             if summary is None:
                 return str(start)
-            return "(folly::StringPiece) " + summary
+            return summary
         else:
-            return f"(folly::Range) <{SyntheticFormatter.get_item_type(valobj)}> [{SyntheticFormatter.get_range_length(valobj)}]"
+            return f"size={SyntheticFormatter.get_range_length(valobj)}"
 
     except Exception:
         return "(folly::Range)"

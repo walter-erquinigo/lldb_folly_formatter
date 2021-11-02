@@ -49,30 +49,30 @@ c
 """
 
         expected = """
-(folly::StringPiece) str = (folly::StringPiece) "Hello"
-(folly::StringPiece) $0 = (folly::StringPiece) "Hello"
+(folly::StringPiece) str = "Hello"
+(folly::StringPiece) $0 = "Hello"
 Hello
-(folly::StringPiece) str = (folly::StringPiece) "Hello, World!"
-(folly::StringPiece) $1 = (folly::StringPiece) "Hello, World!"
+(folly::StringPiece) str = "Hello, World!"
+(folly::StringPiece) $1 = "Hello, World!"
 Hello, World!
-(folly::StringPiece) str = (folly::StringPiece) "1234567890"
-(folly::StringPiece) $2 = (folly::StringPiece) "1234567890"
+(folly::StringPiece) str = "1234567890"
+(folly::StringPiece) $2 = "1234567890"
 1234567890
-(folly::StringPiece) str = (folly::StringPiece) "Test"
-(folly::StringPiece) $3 = (folly::StringPiece) "Test"
+(folly::StringPiece) str = "Test"
+(folly::StringPiece) $3 = "Test"
 Test
-(folly::Range<const unsigned int *>) range = (folly::Range) <const unsigned int *> [4]
-(folly::Range<const unsigned int *>) $4 = (folly::Range) <const unsigned int *> [4]
-(folly::Range<const float *>) range = (folly::Range) <const float *> [3]
-(folly::Range<const float *>) $5 = (folly::Range) <const float *> [3]
-(folly::Range<const char32_t *>) range = (folly::Range) <const char32_t *> [2]
-(folly::Range<const char32_t *>) $6 = (folly::Range) <const char32_t *> [2]
-(folly::ByteRange) byter = (folly::Range) <const unsigned char *> [13]
-(folly::ByteRange) $7 = (folly::Range) <const unsigned char *> [13]
-(folly::MutableByteRange) byter = (folly::Range) <unsigned char *> [13]
-(folly::MutableByteRange) $8 = (folly::Range) <unsigned char *> [13]
-(const folly::Range<const int *>) EmptyRange = (folly::Range) <const int *> [0]
-(const folly::Range<const int *>) $9 = (folly::Range) <const int *> [0]
+(folly::Range<const unsigned int *>) range = size=4
+(folly::Range<const unsigned int *>) $4 = size=4
+(folly::Range<const float *>) range = size=3
+(folly::Range<const float *>) $5 = size=3
+(folly::Range<const char32_t *>) range = size=2
+(folly::Range<const char32_t *>) $6 = size=2
+(folly::ByteRange) byter = size=13
+(folly::ByteRange) $7 = size=13
+(folly::MutableByteRange) byter = size=13
+(folly::MutableByteRange) $8 = size=13
+(const folly::Range<const int *>) EmptyRange = size=0
+(const folly::Range<const int *>) $9 = size=0
 """.strip()
 
         self.assertEqual(expected, self.run_lldb("range", script))
