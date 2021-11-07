@@ -7,30 +7,35 @@
 import os
 import lldb
 
+
 def summary(valobj, dict):
     vec = FBVectorFormatter(valobj)
+    _summary = ""
     try:
         if not (valobj.IsValid()):
             return "<invalid>"
+        
+        size = vec.num_children()
+        _summary += f"size={size}"
 
-        # if FBVectorFormatter.is_string_piece(valobj):
-        #     start = valobj.GetNonSyntheticValue().GetChildMemberWithName("b_")
-        #     summary = start.GetSummary()
-        #     if summary is None:
-        #         return str(start)
-        #     return summary
-        # else:
-        return f"size={vec.num_children()}"
+        if size > 0:
+            _summary += " {\n"
+            for i in range(size):
+                _summary += f"  {vec.get_child_at_index(i)}\n"
+            _summary += "}"
+            
+        return _summary
 
     except Exception:
-        return f"size={vec.num_children()}"
+        # todo: change this
+        return f"size=-1"
 
 
 class FBVectorFormatter:
     def __init__(self, valobj):
-        # logger = lldb.formatters.Logger.Logger()
         self.valobj = valobj
         self.count = None
+        self.update()
     
     def num_children_impl(self):
         try:
@@ -47,9 +52,11 @@ class FBVectorFormatter:
             # Make sure nothing is NULL
             if start_val == 0 or finish_val == 0 or end_val == 0:
                 return 0
+
             # Make sure start is less than finish
             if start_val >= finish_val:
                 return 0
+
             # Make sure finish is less than or equal to end of storage
             if finish_val > end_val:
                 return 0
@@ -64,7 +71,7 @@ class FBVectorFormatter:
             else:
                 num_children = num_children // self.data_size
             return num_children
-        except:
+        except Exception as e:
             return 0
 
     def num_children(self):
@@ -79,36 +86,33 @@ class FBVectorFormatter:
             return -1
 
     def get_child_at_index(self, index):
-        # logger = lldb.formatters.Logger.Logger()
-        # logger >> "Retrieving child " + str(index)
         if index < 0:
             return None
         if index >= self.num_children():
             return None
         try:
-            offset = index * self.data_size
-            return self.start.CreateChildAtOffset(
-                '[' + str(index) + ']', offset, self.data_type)
+            # offset = index * self.data_size
+            # return self.start.CreateChildAtOffset(
+            #     '[' + str(index) + ']', offset, self.data_type)
+            return lldb.value(self.start)[int(index)].sbvalue
         except:
             return None
 
     def update(self):
-        self.count = None
-        # preemptively setting this to None
-        # we might end up changing our mind later
-
         try:
-            impl = self.valobj.GetChildMemberWithName('_M_impl')
-            self.start = impl.GetChildMemberWithName('_M_start')
-            self.finish = impl.GetChildMemberWithName('_M_finish')
-            self.end = impl.GetChildMemberWithName('_M_end_of_storage')
+            impl = self.valobj.GetChildMemberWithName('impl_')
+            self.start = impl.GetChildMemberWithName('b_')
+            self.finish = impl.GetChildMemberWithName('e_')
+            self.end = impl.GetChildMemberWithName('z_')
             self.data_type = self.start.GetType().GetPointeeType()
             self.data_size = self.data_type.GetByteSize()
-            # if any of these objects is invalid, it means there is no
-            # point in trying to fetch anything
+            
+            # If valid, continue
             if self.start.IsValid() and self.finish.IsValid(
             ) and self.end.IsValid() and self.data_type.IsValid():
                 self.count = None
+            # if any of these objects is invalid, it means there is no
+            # point in trying to fetch anything
             else:
                 self.count = 0
         except:
@@ -117,6 +121,7 @@ class FBVectorFormatter:
 
     def has_children(self):
         return True
+
 
 def __lldb_init_module(debugger, dict):
     typeName = r"^folly::fbvector<.*$"
