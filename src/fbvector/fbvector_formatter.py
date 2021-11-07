@@ -18,17 +18,16 @@ def summary(valobj, dict):
         size = vec.num_children()
         _summary += f"size={size}"
 
-        if size > 0:
-            _summary += " {\n"
-            for i in range(size):
-                _summary += f"  {vec.get_child_at_index(i)}\n"
-            _summary += "}"
+        _summary += " {"
+        for i in range(size):
+            _summary += f"\n  {vec.get_child_at_index(i)}"
+        
+        _summary += "}" if size == 0 else "\n}"
             
         return _summary
 
     except Exception:
-        # todo: change this
-        return f"size=-1"
+        return ""
 
 
 class FBVectorFormatter:
@@ -91,9 +90,6 @@ class FBVectorFormatter:
         if index >= self.num_children():
             return None
         try:
-            # offset = index * self.data_size
-            # return self.start.CreateChildAtOffset(
-            #     '[' + str(index) + ']', offset, self.data_type)
             return lldb.value(self.start)[int(index)].sbvalue
         except:
             return None
