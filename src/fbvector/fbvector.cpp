@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include <folly/FBVector.h>
 
 using namespace folly;
@@ -14,6 +13,7 @@ int main() {
   // Empty vector
   FBVector<u_int>({});
   
+  // Vectors with type inferred
   FBVector({ 1, 2, 3, 4, 5 });
   FBVector({ 1.0, 2.0, 3.0, 4.0 });
   FBVector({ 'A', 'B', 'C' });
