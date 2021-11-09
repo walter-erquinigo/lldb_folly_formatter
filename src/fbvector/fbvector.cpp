@@ -19,5 +19,9 @@ int main() {
   FBVector({ 'A', 'B', 'C' });
   FBVector({ true, false });
 
+  // Vectors with explicit type
+  FBVector<uint8_t>({ 0xA, 0xB, 0xC, 0xD });
+  FBVector<float>({ 1.0, 2.0, 3.0, 4.0 });
+
   return 0;
 }
