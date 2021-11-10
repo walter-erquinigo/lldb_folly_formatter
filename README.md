@@ -7,7 +7,7 @@ You need g++, cmake, ninja and a prebuilt version of folly. For example, on Fedo
 
 ```
 sudo dnf groupinstall "Development Tools" -y
-sudo dnf gcc-c++ install folly-static cmake ninja-build
+sudo dnf install clang folly-static cmake ninja-build
 ```
 
 Finally, you need lldb, which you can install from an existing package or build it yourself.
