@@ -8,101 +8,39 @@ class FollyFBVectorTest(LLDBTestCase):
 
     def test_fbvector(self):
         script = """
-b fbvector.cpp:9
+b fbvector.cpp:12
 r
-script lldb.debugger.HandleCommand("frame var fbvec")
-script lldb.debugger.HandleCommand("p fbvec")
-c
-script lldb.debugger.HandleCommand("frame var fbvec")
-script lldb.debugger.HandleCommand("p fbvec")
-c
-script lldb.debugger.HandleCommand("frame var fbvec")
-script lldb.debugger.HandleCommand("p fbvec")
-c
-script lldb.debugger.HandleCommand("frame var fbvec")
-script lldb.debugger.HandleCommand("p fbvec")
-c
-script lldb.debugger.HandleCommand("frame var fbvec")
-script lldb.debugger.HandleCommand("p fbvec")
-c
-script lldb.debugger.HandleCommand("frame var fbvec")
-script lldb.debugger.HandleCommand("p fbvec")
-c
-script lldb.debugger.HandleCommand("frame var fbvec")
-script lldb.debugger.HandleCommand("p fbvec")
+script lldb.debugger.HandleCommand("frame var Empty")
+script lldb.debugger.HandleCommand("frame var Ints")
+script lldb.debugger.HandleCommand("frame var Floats")
+script lldb.debugger.HandleCommand("frame var Chars")
+script lldb.debugger.HandleCommand("frame var Bools")
 c
 """
 
         expected = """
-(folly::fbvector<unsigned int, std::allocator<> >) fbvec = size=0 {}
-(folly::fbvector<unsigned int, std::allocator<> >) $0 = size=0 {}
-(folly::fbvector<int, std::allocator<> >) fbvec = size=5 {
-(int) [0] = 1
-(int) [1] = 2
-(int) [2] = 3
-(int) [3] = 4
-(int) [4] = 5
+(folly::fbvector<unsigned int, std::allocator<> >) Empty = size=0
+(folly::fbvector<int, std::allocator<> >) Ints = size=5 {
+[0] = 1
+[1] = 2
+[2] = 3
+[3] = 4
+[4] = 5
 }
-(folly::fbvector<int, std::allocator<> >) $1 = size=5 {
-(int) [0] = 1
-(int) [1] = 2
-(int) [2] = 3
-(int) [3] = 4
-(int) [4] = 5
+(folly::fbvector<float, std::allocator<> >) Floats = size=4 {
+[0] = 1.5
+[1] = 2.5
+[2] = 3.5
+[3] = 4.5
 }
-(folly::fbvector<double, std::allocator<> >) fbvec = size=4 {
-(double) [0] = 1
-(double) [1] = 2
-(double) [2] = 3
-(double) [3] = 4
+(folly::fbvector<char, std::allocator<> >) Chars = size=3 {
+[0] = 'A'
+[1] = 'B'
+[2] = 'C'
 }
-(folly::fbvector<double, std::allocator<> >) $2 = size=4 {
-(double) [0] = 1
-(double) [1] = 2
-(double) [2] = 3
-(double) [3] = 4
-}
-(folly::fbvector<char, std::allocator<> >) fbvec = size=3 {
-(char) [0] = 'A'
-(char) [1] = 'B'
-(char) [2] = 'C'
-}
-(folly::fbvector<char, std::allocator<> >) $3 = size=3 {
-(char) [0] = 'A'
-(char) [1] = 'B'
-(char) [2] = 'C'
-}
-(folly::fbvector<bool, std::allocator<> >) fbvec = size=2 {
-(bool) [0] = true
-(bool) [1] = false
-}
-(folly::fbvector<bool, std::allocator<> >) $4 = size=2 {
-(bool) [0] = true
-(bool) [1] = false
-}
-(folly::fbvector<unsigned char, std::allocator<> >) fbvec = size=4 {
-(unsigned char) [0] = '\n'
-(unsigned char) [1] = '\v'
-(unsigned char) [2] = '\f'
-(unsigned char) [3] = '\r'
-}
-(folly::fbvector<unsigned char, std::allocator<> >) $5 = size=4 {
-(unsigned char) [0] = '\n'
-(unsigned char) [1] = '\v'
-(unsigned char) [2] = '\f'
-(unsigned char) [3] = '\r'
-}
-(folly::fbvector<float, std::allocator<> >) fbvec = size=4 {
-(float) [0] = 1
-(float) [1] = 2
-(float) [2] = 3
-(float) [3] = 4
-}
-(folly::fbvector<float, std::allocator<> >) $6 = size=4 {
-(float) [0] = 1
-(float) [1] = 2
-(float) [2] = 3
-(float) [3] = 4
+(folly::fbvector<bool, std::allocator<> >) Bools = size=2 {
+[0] = true
+[1] = false
 }
 """.strip()
 

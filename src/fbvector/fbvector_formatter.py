@@ -7,31 +7,8 @@
 import os
 import lldb
 
-
-def summary(valobj, dict):
-    vec = FBVectorFormatter(valobj)
-    _summary = ""
-    try:
-        if not (valobj.IsValid()):
-            return "<invalid>"
-        
-        size = vec.num_children()
-        _summary += f"size={size}"
-
-        _summary += " {"
-        for i in range(size):
-            _summary += f"\n  {vec.get_child_at_index(i)}"
-        
-        _summary += "}" if size == 0 else "\n}"
-            
-        return _summary
-
-    except Exception:
-        return ""
-
-
 class FBVectorFormatter:
-    def __init__(self, valobj):
+    def __init__(self, valobj, dict):
         self.valobj = valobj
         self.count = None
         self.update()
@@ -113,7 +90,7 @@ class FBVectorFormatter:
                 self.count = 0
         except:
             pass
-        return True
+        return False
 
     def has_children(self):
         return True
@@ -124,9 +101,13 @@ def __lldb_init_module(debugger, dict):
     moduleName = os.path.splitext(os.path.basename(__file__))[0]
 
     debugger.HandleCommand(
-        'type summary add -x "'
-        + typeName
-        + '" --python-function '
-        + moduleName
-        + ".summary"
+        'type summary add --expand --hide-empty --no-value ' 
+        + f'-x "{typeName}" ' 
+        + f'--summary-string "size=${{svar%#}}"'
+    )
+
+    debugger.HandleCommand(
+        'type synthetic add '
+        + f'-x "{typeName}" '
+        + f'-l {moduleName}.FBVectorFormatter'
     )
