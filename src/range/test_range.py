@@ -42,7 +42,6 @@ script lldb.debugger.HandleCommand("frame var byter")
 script lldb.debugger.HandleCommand("p byter")
 c
 n
-n
 script lldb.debugger.HandleCommand("frame var EmptyRange")
 script lldb.debugger.HandleCommand("p EmptyRange")
 c
