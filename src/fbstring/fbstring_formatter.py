@@ -25,8 +25,7 @@ def summary(valobj, dict):
     store = valobj.GetChildAtIndex(0)
 
     if category == 0:
-        small = store.GetChildMemberWithName("small_")
-        string = small
+        string = store.EvaluateExpression('(char *)small_')
     else:
         ml = store.GetChildMemberWithName("ml_")
         size = ml.GetChildMemberWithName("size_").GetValueAsUnsigned()
