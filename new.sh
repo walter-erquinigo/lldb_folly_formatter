@@ -13,3 +13,6 @@ target_link_libraries(${classname} PRIVATE folly)
 install(TARGETS ${classname}
 	RUNTIME DESTINATION ${INSTALL_DIR})
 EOF
+
+cd ..
+echo "add_subdirectory(${classname})" >> CMakeLists.txt
