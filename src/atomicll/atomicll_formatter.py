@@ -3,13 +3,9 @@ import lldb
 
 class AtomicLLSyntheticFormatter:
     count = None
-    __end_of_list_address = 0
 
     def __init__(self, valobj, dict):
         self.valobj = valobj
-        # ## We dont get a "has_prev" value in __init__ and we're not sure if its
-        # ## because the AtomicLL is always singly linked 
-        self.has_prev = False
     
     def next_node(self, node):
         return (node
@@ -18,7 +14,7 @@ class AtomicLLSyntheticFormatter:
         )
 
     def is_valid(self, node):
-        return self.value(self.next_node(node)) != self.__end_of_list_address
+        return self.value(self.next_node(node)) != 0
 
     def value(self, node):
         return node.GetValueAsUnsigned()
@@ -35,17 +31,6 @@ class AtomicLLSyntheticFormatter:
                 return 0
             if self.has_loop():
                 return 0
-            # ## This is currently disabled because the __init__ method
-            # ## doesn't get a "has_prev" value and we're not sure if its
-            # ## because the AtomicLL is always singly linked 
-            # if self.has_prev:
-            #     prev_val = self.prev.GetValueAsUnsigned(0)
-            #     if prev_val == 0:
-            #         return 0
-            #     if next_val == self.node_address:
-            #         return 0
-            #     if next_val == prev_val:
-            #         return 1   
             size = 1
             current = self._head
             while self.is_valid(current):
