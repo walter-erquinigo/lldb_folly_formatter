@@ -5,10 +5,7 @@ def summary(valobj, dict):
 		if not (valobj.IsValid()):
 			return "<invalid>"
 
-		string = valobj.GetChildMemberWithName('data_').GetSummary()
-		size = valobj.GetChildMemberWithName('size_').GetValue()
-
-		return f'[{size}] {string}'
+		return valobj.GetChildMemberWithName('data_').GetSummary()
 	except:
 		pass
 	return "<invalid>"

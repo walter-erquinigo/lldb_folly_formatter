@@ -14,16 +14,26 @@ class FollyFixedStringTest(LLDBTestCase):
         """
 
         script = """
-b fixedstring.cpp:9
+b fixedstring.cpp:14
 r
 script lldb.debugger.HandleCommand("frame var str")
 script lldb.debugger.HandleCommand("p str")
+script lldb.debugger.HandleCommand("frame var empty")
+script lldb.debugger.HandleCommand("p empty")
+script lldb.debugger.HandleCommand("frame var longstr")
+script lldb.debugger.HandleCommand("p longstr")
 c
 """
         expected = """
 abcdefghij
-(folly::FixedString<10>) str = [10] "abcdefghij"
-(folly::FixedString<10>) $0 = [10] "abcdefghij"
+abcdefghijabcdefghijabcdefghijabcdefghijabcdefghij
+(folly::FixedString<10>) str = "abcdefghij"
+(folly::FixedString<10>) $0 = "abcdefghij"
+(folly::FixedString<10>) empty = ""
+(folly::FixedString<10>) $1 = ""
+(folly::FixedString<50>) longstr = "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghij"
+(folly::FixedString<50>) $2 = "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghij"
+
 """.strip()
 
         self.assertEqual(expected, self.run_lldb("fixedstring", script))
