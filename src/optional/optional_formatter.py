@@ -15,10 +15,9 @@ def summary(valobj, dict):
 			return (valobj
 				.GetChildMemberWithName('storage_')
 				.GetChildMemberWithName('value')
-				# .GetValue()
 			)
 		else:
-			return "null"
+			return "No value"
 	except:
 		pass
 	return "<invalid>"
