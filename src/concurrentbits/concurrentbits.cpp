@@ -1,13 +1,12 @@
 #include <iostream>
 #include <folly/ConcurrentBitSet.h>
-// https://github.com/facebook/folly/blob/main/folly/ConcurrentBitSet.h
 
 using namespace folly;
 
 int main() {
-  ConcurrentBitSet<65> bits;
+  ConcurrentBitSet<24> bits;
   bits.set(4);
-  // bits.set(127);
+  // bits.set(7);
 
   return 0;
 }
