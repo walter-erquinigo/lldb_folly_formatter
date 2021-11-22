@@ -3,7 +3,7 @@ import	lldb
 import	re
 
 class ConcurrentBitsFormatter:
-	def __init__(self,	valobj,	dict):
+	def __init__(self, valobj,	dict):
 		self.valobj = lldb.value(valobj)
 		self.size = 0
 
@@ -67,7 +67,7 @@ class ConcurrentBitsFormatter:
 			pass
 		return False
 
-def __lldb_init_module(debugger,	dict):
+def __lldb_init_module(debugger, dict):
 	typeName = r"(^folly::ConcurrentBitSet<.*$)"
 	moduleName = os.path.splitext(os.path.basename(__file__))[0]
 
