@@ -1,34 +1,32 @@
 import	os
 import	lldb
-import re
+import	re
 
 class ConcurrentBitsFormatter:
-	count =	None
-
-	def	__init__(self,	valobj,	dict):
-		self.valobj	= lldb.value(valobj)
-		self.setsize = 0
+	def __init__(self,	valobj,	dict):
+		self.valobj = lldb.value(valobj)
+		self.size = 0
 
 		nTypeArgs = self.valobj.sbvalue.GetType().GetNumberOfTemplateArguments()
 		typeName = self.valobj.sbvalue.GetType().GetDisplayTypeName()
 		try:
-			self.setsize = int(re.search('<(.+?)>', typeName).group(nTypeArgs))
+			self.size = int(re.search('<(.+?)>', typeName).group(nTypeArgs))
 		except AttributeError:
 			pass
 
 		self.blocktype = self.valobj.data_._M_elems[0]._M_i.sbvalue.GetType()
 		self.blocksize = self.blocktype.GetCanonicalType().GetByteSize()
 
-	def	num_children(self):
-		return self.setsize
+	def num_children(self):
+		return self.size
 
-	def	get_child_index(self, name):
+	def get_child_index(self, name):
 		try:
 			return int(name.lstrip('[').rstrip(']'))
 		except:
 			return -1
 
-	def	get_child_at_index(self, index):
+	def get_child_at_index(self, index):
 		if index < 0:
 			return None
 		if index >= self.num_children():
@@ -62,15 +60,16 @@ class ConcurrentBitsFormatter:
 		except:
 			return None
 
-	def	update(self):
+	def update(self):
 		try:
 			self.kblocklen = len(self.valobj.data_._M_elems)
 		except:
 			pass
+		return False
 
-def	__lldb_init_module(debugger,	dict):
-	typeName	=	r"(^folly::ConcurrentBitSet<.*$)"
-	moduleName	=	os.path.splitext(os.path.basename(__file__))[0]
+def __lldb_init_module(debugger,	dict):
+	typeName = r"(^folly::ConcurrentBitSet<.*$)"
+	moduleName = os.path.splitext(os.path.basename(__file__))[0]
 
 	debugger.HandleCommand(
 		'type synthetic add ' 
@@ -79,5 +78,5 @@ def	__lldb_init_module(debugger,	dict):
 
 	debugger.HandleCommand(
 		'type summary add --expand --hide-empty --no-value '	
-		+	f'-x "{typeName}" '	
-		+	f'--summary-string "size=${{svar%#}}"')
+		+ f'-x "{typeName}" '	
+		+ f'--summary-string "size=${{svar%#}}"')
