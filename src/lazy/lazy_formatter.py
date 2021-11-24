@@ -1,4 +1,5 @@
 import os
+import lldb
 
 class LazyFormatter:
 	def __init__(self, valobj, dict):
@@ -40,18 +41,23 @@ class LazyFormatter:
 		return True
 
 
+def LazySummary(valobj, dict):
+	computed = bool(lldb.value(valobj).value_.storage_.hasValue)
+	return f"Is Computed={'true' if computed else 'false'}"
+
+
 def __lldb_init_module(debugger, dict):
-		typeName = r"(^folly::detail::Lazy<.*$)"
-		moduleName = os.path.splitext(os.path.basename(__file__))[0]
+	typeName = r"(^folly::detail::Lazy<.*$)"
+	moduleName = os.path.splitext(os.path.basename(__file__))[0]
 
-		debugger.HandleCommand(
-			'type synthetic add '
-			+ f'-x "{typeName}" '
-			+ f'--python-class {moduleName}.LazyFormatter'
-		)
+	debugger.HandleCommand(
+		'type summary add ' 
+		+ f'-x "{typeName}" ' 
+		+ f'--python-function {moduleName}.LazySummary'
+	)
 
-		debugger.HandleCommand(
-			'type summary add --expand ' 
-			+ f'-x "{typeName}" ' 
-			+ f'--summary-string "Initialized=${{var.value_.storage_.hasValue}}"'
-		)
+	debugger.HandleCommand(
+		'type synthetic add '
+		+ f'-x "{typeName}" '
+		+ f'--python-class {moduleName}.LazyFormatter'
+	)
