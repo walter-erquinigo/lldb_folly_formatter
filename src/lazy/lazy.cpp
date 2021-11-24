@@ -4,15 +4,9 @@
 using namespace folly;
 
 int main() {
-  uint runs = 0;
+  int i = 10;
   auto val = lazy([&]{
-    // Expensive value calculation
-    uint16_t _i = 0;
-    ++runs;
-    while (_i < UINT16_MAX) {
-      ++_i;
-    }
-    return (uint32_t)(_i + runs);
+    return ++i;
   });
 
   // These should be equal if the calculation is run once

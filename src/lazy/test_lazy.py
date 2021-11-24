@@ -23,15 +23,15 @@ script lldb.debugger.HandleCommand("p val")
 c
 		"""
 		expected = """
-(folly::detail::Lazy<(anonymous class)>) val = Initialized=false {}
-(folly::detail::Lazy<(anonymous class)>) $0 = Initialized=false {}
-Expensive Value: 65536
-Reused Value: 65536
-(folly::detail::Lazy<(anonymous class)>) val = Initialized=true {
-value = 65536
+(folly::detail::Lazy<(anonymous class)>) val = Is Computed=false {}
+(folly::detail::Lazy<(anonymous class)>) $0 = Is Computed=false {}
+Expensive Value: 11
+Reused Value: 11
+(folly::detail::Lazy<(anonymous class)>) val = Is Computed=true {
+value = 11
 }
-(folly::detail::Lazy<(anonymous class)>) $1 = Initialized=true {
-value = 65536
+(folly::detail::Lazy<(anonymous class)>) $1 = Is Computed=true {
+value = 11
 }
 		""".strip()
 
