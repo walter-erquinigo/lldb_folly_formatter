@@ -32,12 +32,17 @@ class OptionalFormatter:
 			.GetChildMemberWithName('storage_')
 			.GetChildMemberWithName('hasValue')
 			.GetValueAsUnsigned()
-		) == 1 else False
+		) != 0 else False
 
 		return False
 
 	def has_children(self):
 		return True
+
+
+def OptionalSummary(valobj, dict):
+	hasValue = valobj.GetNumChildren() > 0
+	return f"Has Value={'true' if hasValue else 'false'}"
 
 
 def __lldb_init_module(debugger, dict):
@@ -51,7 +56,7 @@ def __lldb_init_module(debugger, dict):
     )
 
     debugger.HandleCommand(
-        'type summary add --expand ' 
+        'type summary add --expand --hide-empty --no-value ' 
         + f'-x "{typeName}" ' 
-        + f'--summary-string "Has Value=${{var.storage_.hasValue}}"'
+        + f'--python-function {moduleName}.OptionalSummary'
     )

@@ -28,16 +28,16 @@ c
 """
 
         expected = """
-(folly::Optional<int>) someInt = Has Value=false {}
-(folly::Optional<int>) $0 = Has Value=false {}
+(folly::Optional<int>) someInt = Has Value=false
+(folly::Optional<int>) $0 = Has Value=false
 (folly::Optional<int>) someInt = Has Value=true {
 value = 34
 }
 (folly::Optional<int>) $1 = Has Value=true {
 value = 34
 }
-(folly::Optional<folly::basic_fbstring<char, std::char_traits<char>, std::allocator<>, folly::fbstring_core<char> > >) someFbStr = Has Value=false {}
-(folly::Optional<folly::basic_fbstring<char, std::char_traits<char>, std::allocator<>, folly::fbstring_core<char> > >) $2 = Has Value=false {}
+(folly::Optional<folly::basic_fbstring<char, std::char_traits<char>, std::allocator<>, folly::fbstring_core<char> > >) someFbStr = Has Value=false
+(folly::Optional<folly::basic_fbstring<char, std::char_traits<char>, std::allocator<>, folly::fbstring_core<char> > >) $2 = Has Value=false
 (folly::Optional<folly::basic_fbstring<char, std::char_traits<char>, std::allocator<>, folly::fbstring_core<char> > >) someFbStr = Has Value=true {
 value = (store_ = (folly::fbstring) "Hello, World!")
 }
