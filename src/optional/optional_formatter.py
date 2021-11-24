@@ -40,6 +40,11 @@ class OptionalFormatter:
 		return True
 
 
+def OptionalSummary(valobj, dict):
+	hasValue = valobj.GetNumChildren() > 0
+	return f"Has Value={'true' if hasValue else 'false'}"
+
+
 def __lldb_init_module(debugger, dict):
     typeName = r"(^folly::Optional<.*$)"
     moduleName = os.path.splitext(os.path.basename(__file__))[0]
@@ -51,7 +56,7 @@ def __lldb_init_module(debugger, dict):
     )
 
     debugger.HandleCommand(
-        'type summary add --expand ' 
+        'type summary add --expand --hide-empty --no-value ' 
         + f'-x "{typeName}" ' 
-        + f'--summary-string "Has Value=${{var.storage_.hasValue}}"'
+        + f'--python-function {moduleName}.OptionalSummary'
     )
