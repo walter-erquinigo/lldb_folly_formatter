@@ -12,8 +12,8 @@ class FollyLazyTest(LLDBTestCase):
 		"""
 
 		script = """
-b lazy.cpp:16
-b lazy.cpp:21
+b lazy.cpp:10
+b lazy.cpp:15
 r
 script lldb.debugger.HandleCommand("frame var val")
 script lldb.debugger.HandleCommand("p val")
@@ -23,8 +23,8 @@ script lldb.debugger.HandleCommand("p val")
 c
 		"""
 		expected = """
-(folly::detail::Lazy<(anonymous class)>) val = Is Computed=false {}
-(folly::detail::Lazy<(anonymous class)>) $0 = Is Computed=false {}
+(folly::detail::Lazy<(anonymous class)>) val = Is Computed=false
+(folly::detail::Lazy<(anonymous class)>) $0 = Is Computed=false
 Expensive Value: 11
 Reused Value: 11
 (folly::detail::Lazy<(anonymous class)>) val = Is Computed=true {
