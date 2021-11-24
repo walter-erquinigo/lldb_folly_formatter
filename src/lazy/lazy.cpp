@@ -1,19 +1,22 @@
 #include <iostream>
 #include <folly/Lazy.h>
-// #include <folly/ConcurrentLazy.h>
 
 using namespace folly;
 
 int main() {
+  uint runs = 0;
   auto val = lazy([&]{
-    return UINT16_MAX;
+    // Expensive value calculation
+    uint16_t _i = 0;
+    ++runs;
+    while (_i < UINT16_MAX) {
+      ++_i;
+    }
+    return (uint32_t)(_i + runs);
   });
-  val();
 
-  // auto const cval = concurrent_lazy([&]{
-  //   return UINT32_MAX;
-  // });
-  // cval();
-
+  // These should be equal if the calculation is run once
+  std::cout << "Expensive Value: " << val() << std::endl;
+  std::cout << "Reused Value: " << val() << std::endl;
   return 0;
 }
