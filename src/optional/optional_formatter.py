@@ -32,7 +32,7 @@ class OptionalFormatter:
 			.GetChildMemberWithName('storage_')
 			.GetChildMemberWithName('hasValue')
 			.GetValueAsUnsigned()
-		) == 1 else False
+		) != 0 else False
 
 		return False
 
